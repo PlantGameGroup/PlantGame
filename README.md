@@ -6,11 +6,9 @@ The user tries to find it then and makes pictures of plants he thinks are the ri
 If the picture is of the wrong one he is told to continue searching. 
 If the user finds the requested plant, he/she can post it on Instagram and gets one level up.
 
-In this Repo the Kubernetes setup is stored. To run the setup for development, the following commands do the job.
+In this Repo the Kubernetes setup is stored. To run the setup for development, the following commands do the job. We need kubectl and minikube installed for that.
 
-First we have to have a running Kubernetes Cluster:
-
-We can use minikube for that (see [minikube start](https://minikube.sigs.k8s.io/docs/start/)):
+First we have to have a running Kubernetes Cluster. We can use minikube for that (see [minikube start](https://minikube.sigs.k8s.io/docs/start/)):
 
 ```bash
 start minikube

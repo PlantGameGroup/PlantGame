@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: plantgame
+  name: plantgame-deployment
 spec:
   replicas: 1
   selector:
@@ -13,5 +13,5 @@ spec:
         app: plantgame
     spec:
       containers:
-        - name: plantgame
-          image: rabbitmq:3.8.19
+        - name: scratch
+          image: johanneshoelker/scratch:test
