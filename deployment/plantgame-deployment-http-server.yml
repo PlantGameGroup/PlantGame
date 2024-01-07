@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: plantgame-http_server
+  name: plantgame-http-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: plantgame-http_server
+      app: plantgame-http-server
   template:
     metadata:
       labels:
-        app: plantgame-http_server
+        app: plantgame-http-server
     spec:
       containers:
-      - name: plantgame-http_server-container
+      - name: plantgame-http-server-container
         image: johanneshoelker/http-server:test
         ports:
         - containerPort: 5000
@@ -38,7 +38,7 @@ metadata:
   name: plantgame-http-ingress
 spec:
   rules:
-    - host: plantgame-http_server
+    - host: plantgame-http-server
       http:
         paths:
           - path: /

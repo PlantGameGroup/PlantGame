@@ -14,18 +14,34 @@ First we have to have a running Kubernetes Cluster. We can use minikube for that
 start minikube
 ```
 
-Then we run in the current workspace:
+Then we type in the current workspace the following command:
 
 ```bash
-kubectl apply -f deployment-backend.yml
+kubectl apply -f deployment/plantgame-deployment-http-server.yml -f deployment/plantgame-deployment-rabbitmq.yml 
 ```
 
-And check if the container is running:
+This runs the respective containers all at once. To check if the containers are running type:
 
 ```bash
 kubectl get pods
 ```
 
-This launches a test container running in the cluster for now. You can find the container here: [Docker](https://hub.docker.com/repository/docker/johanneshoelker/scratch/general)
+This launches a test http server container running in the cluster for now. You can find the container here: [Docker](https://hub.docker.com/repository/docker/johanneshoelker/scratch/general)
+
+You can see the rabbitmq management interface by port forwarding the 
+
+```bash
+kubectl port-forward <pod_name> 5672:5672 15672:15672
+```
+
+And then open http://localhost:1567 Here you can see all queues and messages in the rabbitmq pipe.
+
+The following command can be used for testing to post a message to the pipe:
+
+```bash
+curl -i -u guest:guest -H "content-type:application/json" -X POST \                         ✔  base  
+-d'{"properties":{},"routing_key":"test","payload":"Hello, RabbitMQ!","payload_encoding":"string"}' \
+http://localhost:15672/api/exchanges/%2f/amq.default/publish
+```
 
 In order to add your own containers, store the source code in this repo in a seperate folder and push them to docker hub. Afterwards add them in the deployment.yml.

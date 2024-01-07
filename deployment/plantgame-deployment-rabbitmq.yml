@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq
+  name: plantgame-rabbitmq
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rabbitmq
+      app: plantgame-rabbitmq
   template:
     metadata:
       labels:
-        app: rabbitmq
+        app: plantgame-rabbitmq
     spec:
       containers:
-      - name: rabbitmq
+      - name: plantgame-rabbitmq
         image: rabbitmq:3.8-management
         ports:
         - containerPort: 5672
@@ -22,14 +22,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq-service
+  name: plantgame-rabbitmq-service
 spec:
   selector:
-    app: rabbitmq
+    app: plantgame-rabbitmq
   ports:
-    - protocol: TCP
+    - name: rabbitmq
+      protocol: TCP
       port: 5672
       targetPort: 5672
-    - protocol: TCP
+    - name: rabbitmq-management
+      protocol: TCP
       port: 15672
       targetPort: 15672
