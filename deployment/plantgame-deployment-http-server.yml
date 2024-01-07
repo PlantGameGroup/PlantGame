@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: plantgame-http-server-container
-        image: johanneshoelker/http-server:test
+        image: johanneshoelker/http-server:0.0.2
         ports:
         - containerPort: 5000
 
@@ -25,12 +25,13 @@ metadata:
   name: plantgame-http-service
 spec:
   selector:
-    app: plantgame-http
+    app: plantgame-http-server
   ports:
     - protocol: TCP
       port: 5000
       targetPort: 5000
-  type: LoadBalancer
+  type: NodePort
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -38,10 +39,10 @@ metadata:
   name: plantgame-http-ingress
 spec:
   rules:
-    - host: plantgame-http-server
+    - host: plantgame-backend
       http:
         paths:
-          - path: /
+          - path: /guess
             pathType: Prefix
             backend:
               service:

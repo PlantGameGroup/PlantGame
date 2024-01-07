@@ -28,6 +28,22 @@ kubectl get pods
 
 This launches a test http server container running in the cluster for now. You can find the container here: [Docker](https://hub.docker.com/repository/docker/johanneshoelker/scratch/general)
 
+Testing the http-server is possible with this command:
+
+```bash
+url -X POST http://plantgame-backend/guess -d '{"key": "value"}' -H "Content-Type: application/json"
+```
+
+This posts a message from outside the cluster to the http server. The hostname must resolve to the minikube ip adress. In Linux this is done by adding a line to /etc/hosts like this:
+
+```   
+192.168.49.2 plantgame-backend
+```
+
+
+
+## Message Queue with RabbitMQ
+
 You can see the rabbitmq management interface by port forwarding the 
 
 ```bash
