@@ -1,0 +1,87 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "PlantGameBackend",
+        "version": "1.0.0",
+        "description": "Connecting Kubernetes Container with Firebase"
+    },
+    "paths": {
+        "/guess": {
+            "post": {
+                "requestBody": {
+
+                },
+                "parameters": [
+                    {
+                        "name": "gameId",
+                        "description": "",
+                        "schema": {
+
+                        },
+                        "in": "header"
+                    },
+                    {
+                        "name": "imageUri",
+                        "description": "",
+                        "schema": {
+
+                        },
+                        "in": "header"
+                    },
+                    {
+                        "name": "guessedSpecies",
+                        "description": "This is the latin name of the species the user thinks it is.",
+                        "schema": {
+
+                        },
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The guess arrived"
+                    }
+                },
+                "description": "Is called every time the user makes a guess."
+            }
+        },
+        "/parks": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "chosenPark",
+                        "description": "",
+                        "schema": {
+
+                        },
+                        "in": "header"
+                    },
+                    {
+                        "name": "gameId",
+                        "description": "",
+                        "schema": {
+
+                        },
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "The list of 5 species inside a plant is given."
+                    }
+                },
+                "description": "THis one is called every time the user chooses a park he is in."
+            }
+        }
+    }
+}
