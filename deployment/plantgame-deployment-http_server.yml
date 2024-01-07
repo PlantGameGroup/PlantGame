@@ -1,30 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-k8s-deployment
+  name: plantgame-http_server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flask-k8s
+      app: plantgame-http_server
   template:
     metadata:
       labels:
-        app: flask-k8s
+        app: plantgame-http_server
     spec:
       containers:
-      - name: flask-k8s-container
+      - name: plantgame-http_server-container
         image: johanneshoelker/http-server:test
         ports:
         - containerPort: 5000
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-k8s-service
+  name: plantgame-http-service
 spec:
   selector:
-    app: flask-k8s
+    app: plantgame-http
   ports:
     - protocol: TCP
       port: 5000
@@ -34,20 +35,16 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: flask-k8s-ingress
-  # annotations:
-  #   networking.gke.io/managed-certificates: networking-managed-cert
-  #   networking.gke.io/v1beta1.FrontendConfig: networking-fc
-  #   kubernetes.io/ingress.class: gce
+  name: plantgame-http-ingress
 spec:
   rules:
-    - host: k8s-test
+    - host: plantgame-http_server
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: flask-k8s-service
+                name: plantgame-http-service
                 port:
                   number: 5000
