@@ -17,7 +17,7 @@ start minikube
 Then we run in the current workspace:
 
 ```bash
-kubectl apply -f deployment.yml
+kubectl apply -f deployment-backend.yml
 ```
 
 And check if the container is running:
@@ -26,4 +26,6 @@ And check if the container is running:
 kubectl get pods
 ```
 
-This launches a rabbitmq server running in the cluster.
+This launches a test container running in the cluster for now. You can find the container here: [Docker](https://hub.docker.com/repository/docker/johanneshoelker/scratch/general)
+
+In order to add your own containers, store the source code in this repo in a seperate folder and push them to docker hub. Afterwards add them in the deployment.yml.
