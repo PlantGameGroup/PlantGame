@@ -26,6 +26,8 @@ This runs the respective containers all at once. To check if the containers are 
 kubectl get pods
 ```
 
+## HTTP Server with Flask
+
 This launches a test http server container running in the cluster for now. You can find the container here: [Docker](https://hub.docker.com/repository/docker/johanneshoelker/scratch/general)
 
 Testing the http-server is possible with this command:
@@ -39,8 +41,6 @@ This posts a message from outside the cluster to the http server. The hostname m
 ```   
 192.168.49.2 plantgame-backend
 ```
-
-
 
 ## Message Queue with RabbitMQ
 
