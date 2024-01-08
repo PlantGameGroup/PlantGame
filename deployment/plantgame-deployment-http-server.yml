@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: plantgame-http-server-container
-        image: johanneshoelker/http-server:0.0.8
+        image: johanneshoelker/http-server:0.1.1
         ports:
         - containerPort: 5000
 
@@ -43,6 +43,13 @@ spec:
       http:
         paths:
           - path: /guess
+            pathType: Prefix
+            backend:
+              service:
+                name: plantgame-http-service
+                port:
+                  number: 5000
+          - path: /parks
             pathType: Prefix
             backend:
               service:

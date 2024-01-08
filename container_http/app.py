@@ -3,11 +3,6 @@ import pika
 
 app = Flask(__name__)
 
-# Set up RabbitMQ connection parameters
-rabbitmq_connection_params = pika.ConnectionParameters('plantgame-rabbitmq-service',
-    port=5672,
-    credentials=pika.PlainCredentials('guest', 'guest'),
-    heartbeat=10)
 def get_rabbitmq_connection():
     # Check if the connection already exists
     if 'rabbitmq_connection' in globals() and rabbitmq_connection.is_open:
@@ -25,26 +20,72 @@ def get_rabbitmq_connection():
     new_connection = pika.BlockingConnection(rabbitmq_connection_params)
 
     return new_connection
-rabbitmq_connection = get_rabbitmq_connection()
-rabbitmq_channel = rabbitmq_connection.channel()
 
-# Declare the RabbitMQ queue
-rabbitmq_channel.queue_declare(queue='guesses')
+#rabbitmq setup
+rabbitmq_connection = get_rabbitmq_connection()
+rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
+rabbitmq_channel_user_guesses.queue_declare(queue='user_guesses')
+rabbitmq_channel_new_games = rabbitmq_connection.channel()
+rabbitmq_channel_new_games.queue_declare(queue='new_games')
+rabbitmq_channel_new_parks = rabbitmq_connection.channel()
+rabbitmq_channel_new_parks.queue_declare(queue='new_parks')
+
 @app.route('/guess', methods=['POST'])
-def guess_endpoint():
+def post_guess_endpoint():
     try:
         data = request.json
 
         rabbitmq_connection = get_rabbitmq_connection()
-        rabbitmq_channel = rabbitmq_connection.channel()
+        rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
         # Publish the content to RabbitMQ
-        rabbitmq_channel.basic_publish(
+        rabbitmq_channel_user_guesses.basic_publish(
             exchange='',
-            routing_key='guesses',
+            routing_key='user_guesses',
             body="test"
         )
 
-        return jsonify({"status": "success"}), 200
+        return jsonify({"status": "The guess is going to be processed."}), 200
+
+    except Exception as e:
+        app.logger.error(f"Error processing request: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/parks', methods=['GET'])
+def get_parks_endpoint():
+    try:
+        data = request.json
+
+        rabbitmq_connection = get_rabbitmq_connection()
+        rabbitmq_channel_new_games = rabbitmq_connection.channel()
+        # Publish the content to RabbitMQ
+        rabbitmq_channel_new_games.basic_publish(
+            exchange='',
+            routing_key='new_games',
+            body="test"
+        )
+
+        return jsonify({"status": "The list of 5 species inside a plant will be posted to the gameboard."}), 200
+
+    except Exception as e:
+        app.logger.error(f"Error processing request: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/parks', methods=['POST'])
+def post_parks_endpoint():
+    try:
+        data = request.json
+
+        rabbitmq_connection = get_rabbitmq_connection()
+        rabbitmq_channel_new_parks = rabbitmq_connection.channel()
+        # Publish the content to RabbitMQ
+        rabbitmq_channel_new_parks.basic_publish(
+            exchange='',
+            routing_key='new_parks',
+            body="test"
+        )
+
+        return jsonify({"status": "The park and its species is added to the database"}), 200
 
     except Exception as e:
         app.logger.error(f"Error processing request: {str(e)}")
