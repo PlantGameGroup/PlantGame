@@ -1,17 +1,31 @@
 from flask import Flask, request, jsonify
 import pika
-import time
 
 app = Flask(__name__)
 
 # Set up RabbitMQ connection parameters
-time.sleep(10)
 rabbitmq_connection_params = pika.ConnectionParameters('plantgame-rabbitmq-service',
     port=5672,
     credentials=pika.PlainCredentials('guest', 'guest'),
-        heartbeat=10,  # Set the heartbeat interval in seconds
-)
-rabbitmq_connection = pika.BlockingConnection(rabbitmq_connection_params)
+    heartbeat=10)
+def get_rabbitmq_connection():
+    # Check if the connection already exists
+    if 'rabbitmq_connection' in globals() and rabbitmq_connection.is_open:
+        return rabbitmq_connection
+
+    # Connection parameters
+    rabbitmq_connection_params = pika.ConnectionParameters(
+        host='plantgame-rabbitmq-service',
+        port=5672,
+        credentials=pika.PlainCredentials('guest', 'guest'),
+        heartbeat=10
+    )
+
+    # Create a new connection
+    new_connection = pika.BlockingConnection(rabbitmq_connection_params)
+
+    return new_connection
+rabbitmq_connection = get_rabbitmq_connection()
 rabbitmq_channel = rabbitmq_connection.channel()
 
 # Declare the RabbitMQ queue
@@ -21,6 +35,8 @@ def guess_endpoint():
     try:
         data = request.json
 
+        rabbitmq_connection = get_rabbitmq_connection()
+        rabbitmq_channel = rabbitmq_connection.channel()
         # Publish the content to RabbitMQ
         rabbitmq_channel.basic_publish(
             exchange='',
