@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plantgame-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plantgame-backend
+  template:
+    metadata:
+      labels:
+        app: plantgame-backend
+    spec:
+      containers:
+      - name: plantgame-backend-container
+        image: johanneshoelker/plantgame-backend:test
+        command: ["sleep", "infinity"]

@@ -39,7 +39,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The guess arrived"
+                        "description": "The guess is going to be processed."
                     }
                 },
                 "description": "Is called every time the user makes a guess."
@@ -80,7 +80,38 @@
                         "description": "The list of 5 species inside a plant is given."
                     }
                 },
-                "description": "THis one is called every time the user chooses a park he is in."
+                "summary": "get species of park",
+                "description": "This one is called every time the user chooses a park."
+            },
+            "post": {
+                "requestBody": {
+
+                },
+                "parameters": [
+                    {
+                        "name": "parkName",
+                        "description": "",
+                        "schema": {
+
+                        },
+                        "in": "header"
+                    },
+                    {
+                        "name": "speciesList",
+                        "description": "This is a list of all species appearing in the specified park.",
+                        "schema": {
+
+                        },
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The park and its species is added to the database"
+                    }
+                },
+                "summary": "adding park",
+                "description": "It adds a park with a list of species to the postgre database."
             }
         }
     }
