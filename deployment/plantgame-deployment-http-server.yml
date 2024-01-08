@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: plantgame-http-server-container
-        image: johanneshoelker/http-server:0.0.6
+        image: johanneshoelker/http-server:0.0.7
         ports:
         - containerPort: 5000
 

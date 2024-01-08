@@ -8,7 +8,8 @@ app = Flask(__name__)
 time.sleep(10)
 rabbitmq_connection_params = pika.ConnectionParameters('plantgame-rabbitmq-service',
     port=5672,
-    credentials=pika.PlainCredentials('guest', 'guest')
+    credentials=pika.PlainCredentials('guest', 'guest'),
+        heartbeat=10,  # Set the heartbeat interval in seconds
 )
 rabbitmq_connection = pika.BlockingConnection(rabbitmq_connection_params)
 rabbitmq_channel = rabbitmq_connection.channel()
