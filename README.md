@@ -33,12 +33,12 @@ This launches a test http server container running in the cluster for now. You c
 Testing the http-server is possible with this command:
 
 ```bash
-url -X POST http://plantgame-backend/guess -d '{"key": "value"}' -H "Content-Type: application/json"
+curl -X POST http://plantgame-backend/guess -d '{"key": "value"}' -H "Content-Type: application/json"
 ```
 
 This posts a message from outside the cluster to the http server. The hostname must resolve to the minikube ip adress. In Linux this is done by adding a line to /etc/hosts like this:
 
-```   
+```
 192.168.49.2 plantgame-backend
 ```
 
@@ -61,3 +61,19 @@ http://localhost:15672/api/exchanges/%2f/amq.default/publish
 ```
 
 In order to add your own containers, store the source code in this repo in a seperate folder and push them to docker hub. Afterwards add them in the deployment.yml.
+
+## Backend with Ubuntu Container
+
+Accessing the backend container by command line iis done like this:
+
+```bash
+kubectl exec -it <plantgame-backend-pod-name> -- /bin/bash 
+```
+
+Inside the container console you can start the functionalities with this:
+
+```bash
+python3 main.py
+```
+
+Using nano for testing the script is the easiest way for manipulation. THe script is goint to be started later automatically.

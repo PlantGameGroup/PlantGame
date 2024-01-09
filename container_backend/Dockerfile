@@ -3,7 +3,7 @@ FROM ubuntu:latest
 
 # Install necessary dependencies
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip
+    apt-get install -y python3 python3-pip nano
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -19,3 +19,4 @@ COPY . /app
 
 # Specify the command to run on container start
 # CMD ["python3", "main.py"]
+CMD ["sleep", "infinity"]
