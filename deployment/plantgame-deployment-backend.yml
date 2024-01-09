@@ -14,5 +14,5 @@ spec:
     spec:
       containers:
       - name: plantgame-backend-container
-        image: johanneshoelker/plantgame-backend:test
+        image: johanneshoelker/plantgame-backend:0.0.7
         command: ["sleep", "infinity"]
