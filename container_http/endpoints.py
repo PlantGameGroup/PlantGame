@@ -1,33 +1,6 @@
 from flask import Flask, request, jsonify
 import pika
 
-app = Flask(__name__)
-
-def get_rabbitmq_connection():
-    # Check if the connection already exists
-    if 'rabbitmq_connection' in globals() and rabbitmq_connection.is_open:
-        return rabbitmq_connection
-
-    # Connection parameters
-    rabbitmq_connection_params = pika.ConnectionParameters(
-        host='plantgame-rabbitmq-service',
-        port=5672,
-        credentials=pika.PlainCredentials('guest', 'guest'),
-        heartbeat=10
-    )
-
-    # Create a new connection
-    new_connection = pika.BlockingConnection(rabbitmq_connection_params)
-
-    return new_connection
-
-#rabbitmq setup
-rabbitmq_connection = get_rabbitmq_connection()
-rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
-rabbitmq_channel_user_guesses.queue_declare(queue='user_guesses')
-rabbitmq_channel_new_parks = rabbitmq_connection.channel()
-rabbitmq_channel_new_parks.queue_declare(queue='new_parks')
-
 @app.route('/guess', methods=['POST'])
 def post_guess_endpoint():
     try:
@@ -52,10 +25,17 @@ def post_guess_endpoint():
 def get_parks_endpoint():
     try:
         data = request.json
-        mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
-        json_data = jsonify(mock_species_list)
 
-        return json_data, 200
+        rabbitmq_connection = get_rabbitmq_connection()
+        rabbitmq_channel_new_games = rabbitmq_connection.channel()
+        # Publish the content to RabbitMQ
+        rabbitmq_channel_new_games.basic_publish(
+            exchange='',
+            routing_key='new_games',
+            body="test"
+        )
+
+        return jsonify({"status": "The list of 5 species inside a plant will be posted to the gameboard."}), 200
 
     except Exception as e:
         app.logger.error(f"Error processing request: {str(e)}")
@@ -81,7 +61,3 @@ def post_parks_endpoint():
     except Exception as e:
         app.logger.error(f"Error processing request: {str(e)}")
         return jsonify({"error": str(e)}), 500
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
