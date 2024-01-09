@@ -49,15 +49,7 @@
             "get": {
                 "parameters": [
                     {
-                        "name": "chosenPark",
-                        "description": "",
-                        "schema": {
-
-                        },
-                        "in": "header"
-                    },
-                    {
-                        "name": "gameId",
+                        "name": "park",
                         "description": "",
                         "schema": {
 

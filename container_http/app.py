@@ -51,7 +51,11 @@ def post_guess_endpoint():
 @app.route('/parks', methods=['GET'])
 def get_parks_endpoint():
     try:
-        data = request.json
+        park_header_value = request.headers.get('park')
+
+        if park_header_value is None:
+            raise ValueError("The 'park' header is missing in the request.")
+
         mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
         json_data = jsonify(mock_species_list)
 
