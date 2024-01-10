@@ -67,14 +67,14 @@ def get_parks_endpoint():
 
         if park_header_value is None:
             raise ValueError("The 'park' header is missing in the request.")
-	
-	postgres_connection = get_postgres_connection()
+
+        postgres_connection = get_postgres_connection()
         cursor = postgres_connection.cursor()
 
-	cursor.execute("SELECT species_name FROM species_table WHERE park_name = %s", (park_header_value,))
+        cursor.execute("SELECT species_name FROM species_table WHERE park_name = %s", (park_header_value,))
         species_list = [row[0] for row in cursor.fetchall()]
 
-	cursor.close()
+        cursor.close()
         postgres_connection.close()
 
         #mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
