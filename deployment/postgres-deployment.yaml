@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: latifa212/plantgame-postgres:0.0.1
+        image: johanneshoelker/postgres-db:test
         env:
         - name: POSTGRES_DB
           value: PlantGame
@@ -37,4 +37,3 @@ spec:
     port: 5432
     targetPort: 5432
   type: NodePort
-

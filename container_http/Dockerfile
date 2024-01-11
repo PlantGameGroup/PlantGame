@@ -1,14 +1,14 @@
-FROM python:3.8-slim
+FROM python:3.8-alpine
 
 WORKDIR /app
 
-RUN apt-get update && \
-    apt-get install -y nano && \
-    rm -rf /var/lib/apt/lists/*
-
+RUN apk update && \
+    apk add --no-cache nano procps && \
+    rm -rf /var/cache/apk/*
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "app.py"]
+#CMD ["python", "app.py"]
+CMD ["sleep", "infinity"]

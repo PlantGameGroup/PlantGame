@@ -14,10 +14,11 @@ spec:
     spec:
       containers:
       - name: plantgame-http-server-container
-        image: johanneshoelker/http-server:0.1.4
+        image: johanneshoelker/http-server:0.1.10
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
+
 ---
 apiVersion: v1
 kind: Service
