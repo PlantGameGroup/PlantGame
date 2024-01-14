@@ -5,7 +5,7 @@ import psycopg2
 app = Flask(__name__)
 
 postgres_connection_params = {
-    'host': 'plantgame-postgres-service',
+    'host': 'postgres-service',
     'port': 5432,
     'user': 'postgres',
     'password': 'plant_game',
