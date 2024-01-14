@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-board-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game-board-service
+  template:
+    metadata:
+      labels:
+        app: game-board-service
+    spec:
+      containers:
+      - name: game-board-service-container
+        image: maxymshyjko988/game-board-service:0.1
