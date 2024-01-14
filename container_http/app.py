@@ -42,13 +42,21 @@ def post_guess_endpoint():
         if header_value_guessedSpecies is None:
             raise ValueError("The 'guessedSpecies' header is missing in the request.")
 
+        # Combine headers into a dictionary
+        message_body = {
+            'gameID': header_value_gameID,
+            'imageURI': header_value_imageURI,
+            'guessedSpecies': header_value_guessedSpecies
+        }
+
+
         rabbitmq_connection = get_rabbitmq_connection()
         rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
         # Publish the content to RabbitMQ
         rabbitmq_channel_user_guesses.basic_publish(
             exchange='',
             routing_key='user_guesses',
-            body="test"
+            body=jsonify(message_body).get_data(as_text=True)
         )
 
         return jsonify({"status": "The guess is going to be processed."}), 200
