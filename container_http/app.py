@@ -1,7 +1,19 @@
 from flask import Flask, request, jsonify
 import pika
+import psycopg2
 
 app = Flask(__name__)
+
+postgres_connection_params = {
+    'host': 'postgres-service',
+    'port': 5432,
+    'user': 'postgres',
+    'password': 'plant_game',
+    'database': 'PlantGame'
+}
+
+def get_postgres_connection():
+    return psycopg2.connect(**postgres_connection_params)
 
 def get_rabbitmq_connection():
     # Check if the connection already exists
@@ -56,8 +68,17 @@ def get_parks_endpoint():
         if park_header_value is None:
             raise ValueError("The 'park' header is missing in the request.")
 
-        mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
-        json_data = jsonify(mock_species_list)
+        postgres_connection = get_postgres_connection()
+        cursor = postgres_connection.cursor()
+
+        cursor.execute("SELECT species_name FROM species_table WHERE park_name = %s", (park_header_value,))
+        species_list = [row[0] for row in cursor.fetchall()]
+
+        cursor.close()
+        postgres_connection.close()
+
+        #mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
+        json_data = jsonify(species_list)
 
         return json_data, 200
 
