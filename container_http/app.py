@@ -31,7 +31,16 @@ rabbitmq_channel_new_parks.queue_declare(queue='new_parks')
 @app.route('/guess', methods=['POST'])
 def post_guess_endpoint():
     try:
-        data = request.json
+        header_value_gameID = request.headers.get('gameID')
+        header_value_imageURI = request.headers.get('imageURI')
+        header_value_guessedSpecies = request.headers.get('guessedSpecies')
+
+        if header_value_gameID is None:
+            raise ValueError("The 'gameID' header is missing in the request.")
+        if header_value_imageURI is None:
+            raise ValueError("The 'imageURI' header is missing in the request.")
+        if header_value_guessedSpecies is None:
+            raise ValueError("The 'guessedSpecies' header is missing in the request.")
 
         rabbitmq_connection = get_rabbitmq_connection()
         rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
