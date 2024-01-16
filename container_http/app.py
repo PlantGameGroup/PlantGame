@@ -5,7 +5,7 @@ import psycopg2
 app = Flask(__name__)
 
 postgres_connection_params = {
-    'host': 'plantgame-postgres-service',
+    'host': 'postgres-service',
     'port': 5432,
     'user': 'postgres',
     'password': 'plant_game',
@@ -71,7 +71,7 @@ def get_parks_endpoint():
 	postgres_connection = get_postgres_connection()
         cursor = postgres_connection.cursor()
 
-	cursor.execute("SELECT species_name FROM species_table WHERE park_name = %s", (park_header_value,))
+	cursor.execute("SELECT Name FROM Plant WHERE Park = %s", (park_header_value,))
         species_list = [row[0] for row in cursor.fetchall()]
 
 	cursor.close()
