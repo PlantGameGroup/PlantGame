@@ -33,7 +33,7 @@ def get_rabbitmq_connection():
 
     return new_connection
 
-#rabbitmq setup
+# RabbitMQ setup
 rabbitmq_connection = get_rabbitmq_connection()
 rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
 rabbitmq_channel_user_guesses.queue_declare(queue='user_guesses')
@@ -67,17 +67,17 @@ def get_parks_endpoint():
 
         if park_header_value is None:
             raise ValueError("The 'park' header is missing in the request.")
-	
-	postgres_connection = get_postgres_connection()
+
+        postgres_connection = get_postgres_connection()
         cursor = postgres_connection.cursor()
 
-	cursor.execute("SELECT Name FROM Plant WHERE Park = %s", (park_header_value,))
+        cursor.execute("SELECT Name FROM Plant WHERE Park = %s", (park_header_value,))
         species_list = [row[0] for row in cursor.fetchall()]
 
-	cursor.close()
+        cursor.close()
         postgres_connection.close()
 
-        #mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
+        # mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
         json_data = jsonify(species_list)
 
         return json_data, 200
@@ -85,7 +85,6 @@ def get_parks_endpoint():
     except Exception as e:
         app.logger.error(f"Error processing request: {str(e)}")
         return jsonify({"error": str(e)}), 500
-
 
 @app.route('/parks', methods=['POST'])
 def post_parks_endpoint():
@@ -101,12 +100,11 @@ def post_parks_endpoint():
             body="test"
         )
 
-        return jsonify({"status": "The park and its species is added to the database"}), 200
+        return jsonify({"status": "The park and its species are added to the database"}), 200
 
     except Exception as e:
         app.logger.error(f"Error processing request: {str(e)}")
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
