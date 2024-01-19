@@ -18,8 +18,7 @@ Then we type in the current workspace the following command:
 
 ```bash
 kubectl apply -f deployment/plantgame-deployment-http-server.yml -f deployment/plantgame-deployment-rabbitmq.yml
-kubectl apply -f deployment/plantgame-deployment-http-server.yml -f deployment/plantgame-deployment-rabbitmq.yml -f deployment/plantgame-deploymen
-t-game-board-service.yml
+kubectl apply -f deployment/plantgame-deployment-http-server.yml -f deployment/plantgame-deployment-rabbitmq.yml -f deployment/plantgame-deployment-game-board-service.yml
 ```
 
 This runs the respective containers all at once. To check if the containers are running type:
