@@ -10,5 +10,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-#CMD ["python", "app.py"]
-CMD ["sleep", "infinity"]
+CMD ["python", "app.py"]
+#CMD ["sleep", "infinity"]
