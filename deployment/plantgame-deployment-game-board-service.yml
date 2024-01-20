@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: game-board-service-container
-        image: maxymshyjko988/game-board-service:0.1
+        image: maxymshyjko988/game-board-service:0.2
