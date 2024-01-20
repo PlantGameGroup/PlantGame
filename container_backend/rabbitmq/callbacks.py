@@ -34,7 +34,5 @@ def callback_user_guesses(ch, method, properties, body):
         print(f"Error in Plantnet API call. Status Code: {response.status_code}, Response Text: {response.text}")
 
 
-
-
     # Acknowledge the message to RabbitMQ
     ch.basic_ack(delivery_tag=method.delivery_tag)
