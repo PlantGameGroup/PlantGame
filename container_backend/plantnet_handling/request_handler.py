@@ -25,7 +25,7 @@ def plantnet_api_call(imageURI):
         return best_match, best_match_score
     else:
         print(f"Error in Plantnet API call. Status Code: {response.status_code}, Response Text: {response.text}")
-        return "no_match", "no_score"
+        return "no_match", 0
 
 def extract_score(plantnet_data):
     # Extract info from the best match
