@@ -1,17 +1,7 @@
-import pika
-import json
 import requests
+import json
 
-def callback_user_guesses(ch, method, properties, body):
-    # This is the callback function that will be called when a message is received
-    # Decode the JSON string from the RabbitMQ message body
-    message_body = json.loads(body)
-
-    # Extract individual headers
-    # Add plantID header
-    gameID = message_body.get('gameID')
-    imageURI = message_body.get('imageURI')
-    guessedSpecies = message_body.get('guessedSpecies')
+def plantnet_api_call(imageURI):
 
     # Make the API call to Plantnet
     plantnet_api_url = 'https://my-api.plantnet.org/v2/identify/all'
@@ -29,12 +19,8 @@ def callback_user_guesses(ch, method, properties, body):
     if response.status_code == 200:
         plantnet_data = response.json()
         # Process plantnet_data as needed
-        print(f"GameID: {gameID}, Guessed Species: {guessedSpecies}, Plantnet Response: {plantnet_data}")
+        print(f"Plantnet Response: {plantnet_data}")
+        return plantnet_data
     else:
         print(f"Error in Plantnet API call. Status Code: {response.status_code}, Response Text: {response.text}")
-
-
-
-
-    # Acknowledge the message to RabbitMQ
-    ch.basic_ack(delivery_tag=method.delivery_tag)
+        return 0
