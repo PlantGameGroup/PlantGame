@@ -11,4 +11,4 @@ def process_user_guess(gameID, plantID, requestID, imageURI, guessedSpecies):
         success = True
     else :
         success = False
-    send_guess_result(gameID, plantID, requestID, best_match_name, success)
+    send_guess_result(gameID, plantID, requestID, best_match_name, best_match_score)
