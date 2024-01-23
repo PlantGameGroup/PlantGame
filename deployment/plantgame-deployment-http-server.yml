@@ -50,7 +50,7 @@ spec:
                 name: plantgame-http-service
                 port:
                   number: 5000
-          - path: /parks
+          - path: /park
             pathType: Prefix
             backend:
               service:

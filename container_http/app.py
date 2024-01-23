@@ -65,12 +65,12 @@ def post_guess_endpoint():
         app.logger.error(f"Error processing request: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@app.route('/parks', methods=['GET'])
+@app.route('/park', methods=['GET'])
 def get_parks_endpoint():
     try:
-        park_header_value = request.headers.get('park')
+        park_param_value = request.args.get('park')
 
-        if park_header_value is None:
+        if park_param_value is None:
             raise ValueError("The 'park' header is missing in the request.")
 
         mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
@@ -83,7 +83,7 @@ def get_parks_endpoint():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/parks', methods=['POST'])
+@app.route('/park', methods=['POST'])
 def post_parks_endpoint():
     try:
         data = request.json
