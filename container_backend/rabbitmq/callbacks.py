@@ -12,10 +12,11 @@ def callback_user_guesses(ch, method, properties, body):
     # Add plantID header
     gameID = message_body.get('gameID')
     plantID = message_body.get('plantID')
+    requestID = message_body.get('requestID')
     imageURI = message_body.get('imageURI')
     guessedSpecies = message_body.get('guessedSpecies')
 
-    process_user_guess(gameID, plantID, imageURI, guessedSpecies)
+    process_user_guess(gameID, plantID, requestID, imageURI, guessedSpecies)
 
     # Acknowledge the message to RabbitMQ
     ch.basic_ack(delivery_tag=method.delivery_tag)
