@@ -73,9 +73,38 @@ def get_parks_endpoint():
         if park_param_value is None:
             raise ValueError("The 'park' header is missing in the request.")
 
-        mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
-        json_data = jsonify(mock_species_list)
+        # mock_species_list = ["Alocasia_macrorrhiza", "Philodendron_selloum", "Anthurium_andraeanum", "Calathea_orbifolia", "Monstera_deliciosa"]
+        # json_data = jsonify(mock_species_list)
+        # Update the response to match the desired structure
+        species_data = [
+            {
+                "commonName": "Peace Lily",
+                "latinName": "Spathiphyllum wallisii",
+                "imageURL": "example.com/peace_lily_image.jpg"
+            },
+            {
+                "commonName": "Snake Plant",
+                "latinName": "Sansevieria trifasciata",
+                "imageURL": "example.com/snake_plant_image.jpg"
+            },
+            {
+                "commonName": "Spider Plant",
+                "latinName": "Chlorophytum comosum",
+                "imageURL": "example.com/spider_plant_image.jpg"
+            },
+            {
+                "commonName": "Fiddle Leaf Fig",
+                "latinName": "Ficus lyrata",
+                "imageURL": "example.com/fiddle_leaf_fig_image.jpg"
+            },
+            {
+                "commonName": "ZZ Plant",
+                "latinName": "Zamioculcas zamiifolia",
+                "imageURL": "example.com/zz_plant_image.jpg"
+            }
+        ]
 
+        json_data = jsonify(species_data)
         return json_data, 200
 
     except Exception as e:
