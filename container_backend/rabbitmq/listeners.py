@@ -1,6 +1,7 @@
 from rabbitmq.callbacks import callback_user_guesses
 import pika
 
+# TODO: make a function with argument out of it
 def start_user_guesses_listener():
     rabbitmq_connection_params = pika.ConnectionParameters(
         host='plantgame-rabbitmq-service',

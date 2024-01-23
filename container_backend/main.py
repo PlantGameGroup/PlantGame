@@ -1,4 +1,5 @@
 from rabbitmq.listeners import start_listeners
+from validation.user_guess_handler import process_user_guess
 
 def main():
     start_listeners()
