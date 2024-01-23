@@ -3,7 +3,7 @@ from rabbitmq.tellers import send_guess_result
 
 threshold_score = 0.4
 
-def process_user_guess(gameID, plantID, imageURI, guessedSpecies):
+def process_user_guess(gameID, plantID, requestID, imageURI, guessedSpecies):
     best_match_name , best_match_score = plantnet_api_call(imageURI)
 
     if best_match_score > threshold_score:

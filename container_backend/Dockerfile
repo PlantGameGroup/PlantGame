@@ -18,5 +18,5 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # Specify the command to run on container start
-# CMD ["python3", "main.py"]
-CMD ["sleep", "infinity"]
+CMD ["python3", "main.py"]
+# CMD ["sleep", "infinity"]
