@@ -14,4 +14,25 @@ spec:
     spec:
       containers:
       - name: game-board-service-container
-        image: maxymshyjko988/game-board-service:0.2
+        image: maxymshyjko988/game-board-service:0.4
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 5050
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game-board-service
+spec:
+  selector:
+    app: game-board-service
+  ports:
+    - protocol: TCP
+      port: 5050
+      targetPort: 5050
+  type: LoadBalancer
+
+---
