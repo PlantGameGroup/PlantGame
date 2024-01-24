@@ -1,15 +1,29 @@
 import pika
 import json
 
+MAX_RETRIES = 5
+RETRY_INTERVAL = 10
+
 channel = None
 
 def setup_rabbitmq_teller():
-    global channel
-    connection = get_rabbitmq_connection()
-    # Create a channel
-    channel = connection.channel()
-    # Declare the queue if not exists
-    channel.queue_declare(queue='guess_results')
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            connection = get_rabbitmq_connection()
+            # Create a channel
+            channel = connection.channel()
+            # Declare the queue if not exists
+            channel.queue_declare(queue='guess_results')
+            print("RabbitMQ setup successful!")
+            return
+        except pika.exceptions.AMQPConnectionError as e:
+            print(f"RabbitMQ connection failed. Retrying in {RETRY_INTERVAL} seconds...")
+            retries += 1
+            time.sleep(RETRY_INTERVAL)
+
+    print(f"Max retries reached. Unable to set up RabbitMQ.")
+    # Handle the failure case or raise an exception as needed
 
 def get_rabbitmq_connection():
     # Check if the connection already exists
