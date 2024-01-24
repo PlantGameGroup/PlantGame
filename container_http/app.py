@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
 import pika
 
+rabbitmq_channel_user_guesses = None
+rabbitmq_channel_new_parks = None
+
 app = Flask(__name__)
 
 def get_rabbitmq_connection():
@@ -21,12 +24,15 @@ def get_rabbitmq_connection():
 
     return new_connection
 
-#rabbitmq setup
-rabbitmq_connection = get_rabbitmq_connection()
-rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
-rabbitmq_channel_user_guesses.queue_declare(queue='user_guesses')
-rabbitmq_channel_new_parks = rabbitmq_connection.channel()
-rabbitmq_channel_new_parks.queue_declare(queue='new_parks')
+def setup_rabbitmq():
+    global rabbitmq_channel_user_guesses
+    global rabbitmq_channel_new_parks
+    #rabbitmq setup
+    rabbitmq_connection = get_rabbitmq_connection()
+    rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
+    rabbitmq_channel_user_guesses.queue_declare(queue='user_guesses')
+    rabbitmq_channel_new_parks = rabbitmq_connection.channel()
+    rabbitmq_channel_new_parks.queue_declare(queue='new_parks')
 
 @app.route('/guess', methods=['POST'])
 def post_guess_endpoint():
@@ -48,10 +54,6 @@ def post_guess_endpoint():
             'imageURI': header_value_imageURI,
             'guessedSpecies': header_value_guessedSpecies
         }
-
-
-        rabbitmq_connection = get_rabbitmq_connection()
-        rabbitmq_channel_user_guesses = rabbitmq_connection.channel()
         # Publish the content to RabbitMQ
         rabbitmq_channel_user_guesses.basic_publish(
             exchange='',
@@ -134,4 +136,5 @@ def post_parks_endpoint():
 
 
 if __name__ == '__main__':
+    setup_rabbitmq()
     app.run(host='0.0.0.0', port=5000)
