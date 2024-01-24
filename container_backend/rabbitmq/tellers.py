@@ -1,9 +1,10 @@
 import pika
 import json
 
-global channel = None
+channel = None
 
-def setup_rabbitmq_teller()):
+def setup_rabbitmq_teller():
+    global channel
     connection = get_rabbitmq_connection()
     # Create a channel
     channel = connection.channel()
