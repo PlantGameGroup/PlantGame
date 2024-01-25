@@ -61,7 +61,7 @@ def post_guess_endpoint():
                 routing_key='user_guesses',
                 body=jsonify(message_body).get_data(as_text=True)
             )
-        except pika.exceptions.AMQPConnectionError as e:
+        except Exception as ex:
             print("RabbitMQ connection lost. Reconnecting...")
             setup_rabbitmq()
             rabbitmq_channel_user_guesses.basic_publish(
