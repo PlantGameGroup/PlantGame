@@ -54,13 +54,21 @@ def post_guess_endpoint():
             'imageURI': header_value_imageURI,
             'guessedSpecies': header_value_guessedSpecies
         }
-        # Publish the content to RabbitMQ
-        rabbitmq_channel_user_guesses.basic_publish(
-            exchange='',
-            routing_key='user_guesses',
-            body=jsonify(message_body).get_data(as_text=True)
-        )
-
+        try:
+            # Publish the content to RabbitMQ
+            rabbitmq_channel_user_guesses.basic_publish(
+                exchange='',
+                routing_key='user_guesses',
+                body=jsonify(message_body).get_data(as_text=True)
+            )
+        except Exception as ex:
+            print("RabbitMQ connection lost. Reconnecting...")
+            setup_rabbitmq()
+            rabbitmq_channel_user_guesses.basic_publish(
+                exchange='',
+                routing_key='user_guesses',
+                body=jsonify(message_body).get_data(as_text=True)
+            )
         return jsonify({"status": "The guess is going to be processed."}), 200
 
     except Exception as e:
