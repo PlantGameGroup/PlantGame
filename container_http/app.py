@@ -88,29 +88,29 @@ def get_parks_endpoint():
         # Update the response to match the desired structure
         species_data = [
             {
-                "commonName": "Peace Lily",
-                "latinName": "Spathiphyllum wallisii",
-                "imageURL": "example.com/peace_lily_image.jpg"
+                "commonName": "Aloe Vera",
+                "latinName": "Aloe_Vera",
+                "imageURL": "https://www.aloeverahq.com/wp-content/uploads/2012/01/shutterstock_112140473.jpg"
             },
             {
-                "commonName": "Snake Plant",
-                "latinName": "Sansevieria trifasciata",
-                "imageURL": "example.com/snake_plant_image.jpg"
+                "commonName": "Evergreen Oak",
+                "latinName": "Quercus_ilex",
+                "imageURL": "https://de.academic.ru/pictures/dewiki/79/Oak_tree_in_Corsica.jpg"
             },
             {
-                "commonName": "Spider Plant",
-                "latinName": "Chlorophytum comosum",
-                "imageURL": "example.com/spider_plant_image.jpg"
+                "commonName": "Rosemary",
+                "latinName": "Rosmarinus_officinalis",
+                "imageURL": "https://www.attainable-sustainable.net/wp-content/uploads/2021/11/rosemary.jpg"
             },
             {
-                "commonName": "Fiddle Leaf Fig",
-                "latinName": "Ficus lyrata",
-                "imageURL": "example.com/fiddle_leaf_fig_image.jpg"
+                "commonName": "Thyme",
+                "latinName": "thymus",
+                "imageURL": "https://www.thespruceeats.com/thmb/PGJbPvXkvXQdYP7lyiVwqQjllf8=/5616x3744/filters:no_upscale():max_bytes(150000):strip_icc()/lemon-thyme-185225229-b0e5bf60a5464b3fa2a627187984a313.jpg""
             },
             {
-                "commonName": "ZZ Plant",
-                "latinName": "Zamioculcas zamiifolia",
-                "imageURL": "example.com/zz_plant_image.jpg"
+                "commonName": "Cotton Lavender",
+                "latinName": "santolina_cumbens",
+                "imageURL": "https://de.academic.ru/pictures/dewiki/72/Heiligenkraut_(Santolina_chamaecyparissus_L_).jpg"
             }
         ]
 
