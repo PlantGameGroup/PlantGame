@@ -7,6 +7,7 @@ RETRY_INTERVAL = 10
 channel = None
 
 def setup_rabbitmq_teller():
+    global channel
     retries = 0
     while retries < MAX_RETRIES:
         try:
@@ -51,10 +52,20 @@ def send_guess_result(game_id, plant_id, request_id, result_latin_name, confiden
     }
     # Convert the payload to JSON
     json_payload = json.dumps(payload)
-    # Publish the JSON payload to the queue
-    channel.basic_publish(
-        exchange='',
-        routing_key='guess_results',
-        body=json_payload
-    )
+    try:
+        # Publish the JSON payload to the queue
+        channel.basic_publish(
+            exchange='',
+            routing_key='guess_results',
+            body=json_payload
+        )
+    except pika.exceptions.AMQPConnectionError as e:
+        print("RabbitMQ connection lost. Reconnecting...")
+        setup_rabbitmq_teller()
+        channel.basic_publish(
+            exchange='',
+            routing_key='guess_results',
+            body=json_payload
+        )
+
     print(f" [x] Sent {json_payload}")
