@@ -34,6 +34,20 @@ spec:
   type: LoadBalancer
 
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plantgame-http-service-default-port
+spec:
+  selector:
+    app: plantgame-http-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
+---
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
